@@ -15,6 +15,20 @@ interface ItemInputProps {
 
 export const ItemInput: React.FC<ItemInputProps> = ({ item, index, updateItem, removeItem, canRemove }) => {
   const { t } = useTranslation();
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Prevent typing specific characters (e, E, +, -)
+    if (['e', 'E', '+', '-'].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const handleInput = (field: keyof Item) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    if (val !== '' && parseFloat(val) < 0) return; // Prevent negative values
+    updateItem(item.id, field, val);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, x: -10 }}
@@ -29,26 +43,30 @@ export const ItemInput: React.FC<ItemInputProps> = ({ item, index, updateItem, r
         <input
           type="number"
           inputMode="decimal"
+          min="0"
           value={item.price}
-          onChange={(e) => updateItem(item.id, 'price', e.target.value)}
+          onChange={handleInput('price')}
+          onKeyDown={handleKeyDown}
           placeholder={t('price')}
-          className="w-full glass-input rounded-xl pl-8 pr-7 py-2.5 text-base font-medium transition-all text-gray-800 dark:text-gray-100 peer"
+          className="w-full glass-input rounded-xl pl-8 pr-12 py-2.5 text-base font-medium transition-all text-gray-800 dark:text-gray-100 peer"
         />
-        <div className={`absolute right-3 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400 transition-opacity pointer-events-none ${item.price ? 'opacity-100' : 'opacity-0 peer-focus:opacity-100'}`}>
-          ฿
+        <div className={`absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400/80 transition-opacity pointer-events-none ${item.price ? 'opacity-100' : 'opacity-0 peer-focus:opacity-100'}`}>
+          {t('priceLabel')}
         </div>
       </div>
       <div className="flex-1 relative min-w-0">
         <input
           type="number"
           inputMode="decimal"
+          min="0"
           value={item.size}
-          onChange={(e) => updateItem(item.id, 'size', e.target.value)}
+          onChange={handleInput('size')}
+          onKeyDown={handleKeyDown}
           placeholder={t('size')}
           className={`w-full glass-input rounded-xl pl-3 py-2.5 text-base font-medium transition-all text-gray-800 dark:text-gray-100 peer ${canRemove ? 'pr-16' : 'pr-12'}`}
         />
         <div className={`absolute top-1/2 -translate-y-1/2 text-xs font-medium text-gray-400/80 transition-opacity pointer-events-none ${canRemove ? 'right-9' : 'right-3'} ${item.size ? 'opacity-100' : 'opacity-0 peer-focus:opacity-100'}`}>
-          Size
+          {t('sizeLabel')}
         </div>
         {canRemove && (
           <button 

@@ -24,5 +24,7 @@
   "shareTextAt": "at ฿",
   "shareTextEnd": "/unit.\\nCheck it out!",
   "equalBestValue": "Best Value (Equal)",
-  "youCanChooseAny": "These options have the exact same unit price. You can choose any of them!"
+  "youCanChooseAny": "These options have the exact same unit price. You can choose any of them!",
+  "sizeLabel": "Size",
+  "priceLabel": "Price"
 }
