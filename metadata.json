@@ -1,0 +1,6 @@
+{
+  "name": "Max Value",
+  "description": "A mobile-first product price comparison tool to calculate cost-effectiveness per unit with a Liquid Glass iOS-style UI.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
