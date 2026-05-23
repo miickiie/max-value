@@ -128,8 +128,10 @@ export default function App() {
   const handleShare = async () => {
     if (results.length < 2) return;
     vibrate(50);
-    const best = results.find(r => r.isBest);
-    const text = `${t('shareTextBest')} ${t('option')} ${best ? best.originalIndex + 1 : ''} ${t('shareTextAt')}${best?.unitPrice.toFixed(2)}${t('shareTextEnd')}`;
+    const bestItems = results.filter(r => r.isBest);
+    const bestIndices = bestItems.map(item => item.originalIndex + 1).join(' & ');
+    const bestPrice = bestItems[0]?.unitPrice.toFixed(2);
+    const text = `${t('shareTextBest')} ${t('option')} ${bestIndices} ${t('shareTextAt')}${bestPrice}${t('shareTextEnd')}`;
     
     if (navigator.share) {
       try {

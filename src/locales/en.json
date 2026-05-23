@@ -22,5 +22,7 @@
   "unit": "u",
   "shareTextBest": "🏆 Best Value:",
   "shareTextAt": "at ฿",
-  "shareTextEnd": "/unit.\\nCheck it out!"
+  "shareTextEnd": "/unit.\\nCheck it out!",
+  "equalBestValue": "Best Value (Equal)",
+  "youCanChooseAny": "These options have the exact same unit price. You can choose any of them!"
 }

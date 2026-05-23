@@ -14,7 +14,9 @@ export const ResultCard: React.FC<ResultCardProps> = ({ results }) => {
 
   if (results.length === 0) return null;
 
-  const bestItem = results.find(r => r.isBest);
+  const bestItems = results.filter(r => r.isBest);
+  const isEqualBest = bestItems.length > 1;
+  const bestItem = bestItems[0];
   const worstItem = [...results].sort((a, b) => b.unitPrice - a.unitPrice)[0];
 
   return (
@@ -25,15 +27,24 @@ export const ResultCard: React.FC<ResultCardProps> = ({ results }) => {
     >
       <div className="flex items-center gap-3 mb-4 text-blue-600 dark:text-blue-400">
         <Trophy size={24} className="text-yellow-500" />
-        <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">{t('bestValue')}</h2>
+        <h2 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400">
+          {isEqualBest ? t('equalBestValue') : t('bestValue')}
+        </h2>
       </div>
 
       {bestItem ? (
         <div className="space-y-4">
           <div className="bg-white/50 dark:bg-black/20 rounded-2xl p-5 border border-white/60 dark:border-white/5">
-            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1">
-              {t('option')} {bestItem.originalIndex + 1}
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-1 leading-tight">
+              {bestItems.map(item => `${t('option')} ${item.originalIndex + 1}`).join(' & ')}
             </h3>
+            
+            {isEqualBest && (
+              <div className="text-sm font-medium text-blue-600 dark:text-blue-400 mt-2 mb-3 bg-blue-50 dark:bg-blue-900/40 px-3 py-2 rounded-xl">
+                ✨ {t('youCanChooseAny')}
+              </div>
+            )}
+
             <div className="flex items-baseline gap-2 mb-3">
               <span className="text-3xl font-black tracking-tight text-blue-600 dark:text-blue-400">
                 {formatCurrency(bestItem.unitPrice)}
